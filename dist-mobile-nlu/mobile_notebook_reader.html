@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Dialogflow CX vs Lex V2 — Mobile Reader</title>
+  <style>
+    :root { --bg: #0b1120; --surface: #1e293b; --surface-alt: #0f172a; --border: #334155; --text: #f8fafc; --accent: #38bdf8; --cx: #2563eb; --rag: #059669; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 16px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 16px; max-width: 800px; margin-left: auto; margin-right: auto; }
+    pre { white-space: pre-wrap; word-break: break-word; background: #020617; color: #7dd3fc; padding: 12px; border-radius: 8px; font-size: 13px; }
+    .btn { background: var(--cx); color: #fff; border: 0; padding: 12px 18px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; }
+    input, select { width: 100%; padding: 10px; background: var(--surface-alt); border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>⚡ Dialogflow CX vs Lex V2 NLU Simulator</h2>
+    <label>Platform:</label>
+    <select id="platformSelect">
+      <option value="DIALOGFLOW_CX">Dialogflow CX (Vertex AI Search RAG)</option>
+      <option value="AMAZON_LEX_V2">Amazon Lex V2 (Bedrock KB RAG)</option>
+    </select>
+    <label>Simulated Confidence (<span id="confLabel">0.42</span>):</label>
+    <input type="range" id="confRange" min="0.05" max="0.99" step="0.01" value="0.42" oninput="document.getElementById('confLabel').textContent = this.value" />
+    <label>Utterance / Question:</label>
+    <input type="text" id="userInput" value="What is your 30-day refund policy?" />
+    <button class="btn" onclick="simulateTurn()">▶ Execute Webhook Turn</button>
+    <pre id="outputPre"></pre>
+  </div>
+  <script>
+    function simulateTurn() {
+      const conf = parseFloat(document.getElementById('confRange').value);
+      const plat = document.getElementById('platformSelect').value;
+      const q = document.getElementById('userInput').value;
+      let res = {};
+      if (conf < 0.60) {
+        res = {
+          mode: "GROUNDED_RAG_FALLBACK",
+          provider: plat === "AMAZON_LEX_V2" ? "BEDROCK_KB" : "VERTEX_AI_SEARCH",
+          confidence: conf,
+          answerText: "Orders are eligible for a full refund within 30 calendar days of delivery.",
+          citations: [{ title: "Enterprise Return Policy v4.2", uri: plat === "AMAZON_LEX_V2" ? "s3://bedrock-kb/policy.pdf" : "https://docs.example.com/returns" }]
+        };
+      } else {
+        res = { mode: "DETERMINISTIC_SLOT_FILLING", confidence: conf, query: q, status: "FULFILLED" };
+      }
+      document.getElementById('outputPre').textContent = JSON.stringify(res, null, 2);
+    }
+    simulateTurn();
+  </script>
+</body>
+</html>
