@@ -28,7 +28,17 @@ Then browse to `http://localhost:8080`.
 - `docs/Future_State_Architecture.md` — a vendor-neutral expansion path and normalised turn contract.
 - `docs/Accessibility_and_Mobile_QA.md` — practical accessibility and small-screen test protocol.
 - `docs/Observability_Event_Contract.json` — privacy-conscious baseline for conversation events.
+- `docs/Top_50_Roadmap.md` — prioritised delivery plan from pilot foundations through future-state scale.
+- `reference-implementation/` — tested dependency-free routing, action-control, and CX/Lex adapter examples.
+- `runbooks/` and `release/` — incident, source-change, and external-evidence execution controls.
+
+## Verify the reference implementation
+
+```powershell
+node reference-implementation/orchestrator.test.js
+node --check dist-mobile-nlu/sw.js
+```
 
 ## Production note
 
-This course deliberately treats grounded retrieval as a controlled informational path—not automatic permission to act. Before implementing a real assistant, validate platform feature availability, identity/authorisation, privacy requirements, approved retrieval sources, observability, and safety review with your organisation.
+This course deliberately treats grounded retrieval as a controlled informational path—not automatic permission to act. The repository includes a working reference policy module and release artefacts; a real assistant still needs your cloud environment, domain backend, identity integration, approved data sources, named owners, and organisational sign-off. Track those non-repository gates in `release/External_Evidence_Register.md`.

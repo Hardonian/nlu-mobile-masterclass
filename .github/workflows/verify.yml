@@ -1,0 +1,20 @@
+name: Verify learning release
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run reference policy tests
+        run: node reference-implementation/orchestrator.test.js
+      - name: Check service worker syntax
+        run: node --check dist-mobile-nlu/sw.js
+      - name: Check event contract JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('docs/Observability_Event_Contract.json', 'utf8')); console.log('Event contract valid.')"
