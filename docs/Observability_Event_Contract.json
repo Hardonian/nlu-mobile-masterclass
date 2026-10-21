@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Conversation Event (privacy-conscious baseline)",
+  "type": "object",
+  "required": [
+    "eventVersion",
+    "eventName",
+    "occurredAt",
+    "turnId",
+    "sessionId",
+    "channel",
+    "route",
+    "outcome"
+  ],
+  "properties": {
+    "eventVersion": { "type": "string", "const": "1.0" },
+    "eventName": {
+      "type": "string",
+      "enum": ["turn_routed", "task_completed", "task_failed", "handoff_offered", "dependency_failed"]
+    },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "turnId": { "type": "string", "description": "Opaque correlation identifier; do not use customer identifiers." },
+    "sessionId": { "type": "string", "description": "Opaque or tokenised session identifier." },
+    "channel": { "type": "string", "enum": ["mobile_web", "mobile_app", "web", "voice", "messaging", "other"] },
+    "locale": { "type": "string" },
+    "journey": { "type": "string", "description": "Approved logical journey name, not free-form user text." },
+    "route": { "type": "string", "enum": ["DETERMINISTIC_TASK", "GROUNDED_KNOWLEDGE", "AUTHENTICATE_THEN_RESUME", "CLARIFY", "HUMAN_HANDOFF"] },
+    "confidenceBand": { "type": "string", "enum": ["low", "medium", "high", "not_applicable"] },
+    "authenticationState": { "type": "string", "enum": ["unknown", "unauthenticated", "authenticated", "expired"] },
+    "repairCount": { "type": "integer", "minimum": 0 },
+    "latencyMs": { "type": "integer", "minimum": 0 },
+    "dependency": { "type": "string", "description": "Named approved dependency; omit when not applicable." },
+    "retrievalSourceIds": { "type": "array", "items": { "type": "string" }, "description": "Approved source identifiers only; do not embed source content." },
+    "escalationReason": { "type": "string", "enum": ["risk", "repeat_repair", "policy_exception", "dependency_failure", "user_request", "not_applicable"] },
+    "outcome": { "type": "string", "enum": ["presented", "completed", "abandoned", "blocked", "escalated", "failed"] }
+  },
+  "additionalProperties": false,
+  "description": "Raw user text, account numbers, payment details, and other sensitive content are deliberately excluded. Add fields only through privacy and security review."
+}

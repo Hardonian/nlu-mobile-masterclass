@@ -1,0 +1,10 @@
+{
+  "name": "Conversational NLU for Mobile",
+  "short_name": "NLU Masterclass",
+  "description": "A practical, offline-friendly course on Dialogflow CX and Amazon Lex V2.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#08111f",
+  "theme_color": "#08111f",
+  "icons": []
+}
