@@ -1,0 +1,9 @@
+{
+  "buildId": "40ea2f6d24e98c33",
+  "files": {
+    "index.html": "4d844a1601a2b6a2854dcf44cc824be5debab60522f7114efd0aed2c0929216f",
+    "mobile_notebook_reader.html": "295bd235dd64bbf5b14ee541cd501536e9b8f435610904158e415a527c121567",
+    "manifest.webmanifest": "01ecd960260aa7b40170a523cbb56a69ea776b21f40ea316883b09b6e1f047dc",
+    "sw.js": "4969fc2fa5babb570ad8f810eba2221ddf73a094909f2e0951fc94f96978843e"
+  }
+}

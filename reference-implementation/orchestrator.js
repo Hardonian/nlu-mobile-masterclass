@@ -16,13 +16,44 @@ const ROUTE = Object.freeze({
 
 const ACTIONS = new Set(['cancel_order', 'refund_order', 'change_address', 'replace_card']);
 const HIGH_RISK = new Set(['payment_dispute', 'regulated', 'self_harm', 'threat', 'fraud', 'policy_exception']);
+const CONTRACT_VERSION = '1.0';
+const POLICY_VERSION = '0.1.0';
+
+function normalizeTurn(turn) {
+  const input = turn && typeof turn === 'object' && !Array.isArray(turn) ? turn : {};
+  const collectedFields = input.collectedFields && typeof input.collectedFields === 'object' && !Array.isArray(input.collectedFields) ? input.collectedFields : {};
+  const retrieval = input.retrieval && typeof input.retrieval === 'object' && !Array.isArray(input.retrieval) ? input.retrieval : {};
+  const riskSignals = Array.isArray(input.riskSignals) ? input.riskSignals : Array.isArray(input.requestRisk) ? input.requestRisk : [];
+  return {
+    ...input,
+    contractVersion: input.contractVersion || CONTRACT_VERSION,
+    collectedFields,
+    retrieval,
+    riskSignals,
+    repairCount: Number.isInteger(input.repairCount) && input.repairCount >= 0 ? input.repairCount : 0,
+    authenticationState: ['authenticated', 'unauthenticated', 'expired', 'unknown'].includes(input.authenticationState) ? input.authenticationState : 'unknown'
+  };
+}
+
+function validateTurn(turn) {
+  const input = normalizeTurn(turn);
+  const errors = [];
+  if (input.contractVersion !== CONTRACT_VERSION) errors.push(`Unsupported contract version: ${input.contractVersion}`);
+  if (typeof input.candidateIntent !== 'undefined' && typeof input.candidateIntent !== 'string') errors.push('candidateIntent must be a string.');
+  if (typeof input.requestKind !== 'undefined' && !['knowledge', 'transactional'].includes(input.requestKind)) errors.push('requestKind must be knowledge or transactional.');
+  if (typeof input.collectedFields !== 'object' || Array.isArray(input.collectedFields)) errors.push('collectedFields must be an object.');
+  if (typeof input.retrieval !== 'object' || Array.isArray(input.retrieval)) errors.push('retrieval must be an object.');
+  if (!Array.isArray(input.riskSignals) || input.riskSignals.some((signal) => typeof signal !== 'string')) errors.push('riskSignals must be an array of strings.');
+  return { valid: errors.length === 0, errors, normalized: input };
+}
 
 function hasRisk(signals = []) {
   return signals.some((signal) => HIGH_RISK.has(signal));
 }
 
 function routeTurn(turn) {
-  const input = turn || {};
+  const validation = validateTurn(turn);
+  const input = validation.normalized;
   const intent = input.candidateIntent || 'unknown';
   const fields = input.collectedFields || {};
   const retrieval = input.retrieval || {};
@@ -54,7 +85,7 @@ function routeTurn(turn) {
     return plan(ROUTE.GROUNDED_KNOWLEDGE, 'Approved retrieval evidence supports this informational answer.', 'Return a concise answer restricted to the evidence and preserve source provenance.', { sourceIds: retrieval.sourceIds, actionAllowed: false });
   }
 
-  return plan(ROUTE.CLARIFY, 'The request is not yet safe to execute or sufficiently supported by approved evidence.', 'Offer a short, bounded choice or route to human support.', { actionAllowed: false });
+  return plan(ROUTE.CLARIFY, validation.valid ? 'The request is not yet safe to execute or sufficiently supported by approved evidence.' : 'The request contract is invalid and cannot be safely executed.', validation.valid ? 'Offer a short, bounded choice or route to human support.' : 'Ask the caller to restart or route to human support.', { actionAllowed: false, validationErrors: validation.errors });
 }
 
 function authoriseAction(request) {
@@ -64,16 +95,16 @@ function authoriseAction(request) {
   if (!input.authorised) return deny('Server-side authorisation has not been confirmed.');
   if (!input.backendEligible) return deny('The domain system did not confirm eligibility.');
   if (!input.confirmed) return deny('Explicit customer confirmation is required.');
-  if (!input.idempotencyKey) return deny('An idempotency key is required for an irreversible action.');
-  return { allowed: true, reason: 'Authorised for domain execution only; execute through the trusted backend.', idempotencyKey: input.idempotencyKey };
+  if (typeof input.idempotencyKey !== 'string' || !input.idempotencyKey.trim()) return deny('An idempotency key is required for an irreversible action.');
+  return { allowed: true, policyVersion: POLICY_VERSION, reason: 'Authorised for domain execution only; execute through the trusted backend.', idempotencyKey: input.idempotencyKey };
 }
 
 function plan(route, reason, nextStep, controls) {
-  return { route, reason, nextStep, controls: { actionAllowed: false, ...controls } };
+  return { contractVersion: CONTRACT_VERSION, policyVersion: POLICY_VERSION, route, reason, nextStep, controls: { actionAllowed: false, ...controls } };
 }
 
 function deny(reason) {
   return { allowed: false, reason };
 }
 
-module.exports = { ROUTE, routeTurn, authoriseAction };
+module.exports = { CONTRACT_VERSION, POLICY_VERSION, ROUTE, normalizeTurn, validateTurn, routeTurn, authoriseAction };

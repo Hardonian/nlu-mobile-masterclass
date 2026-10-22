@@ -20,6 +20,17 @@ python -m http.server 8080 -d dist-mobile-nlu
 
 Then browse to `http://localhost:8080`.
 
+## Development commands
+
+Requires Node.js 20+.
+
+```powershell
+npm install
+npm run verify
+```
+
+`verify` validates the project shape, content structure, local links, static release, reference implementation, and release smoke tests. The application remains dependency-free at runtime.
+
 ## Supporting assets
 
 - `docs/Facilitator_Guide.md` — workshop timing, answer key, prompts, and capstone rubric.
@@ -30,7 +41,9 @@ Then browse to `http://localhost:8080`.
 - `docs/Observability_Event_Contract.json` — privacy-conscious baseline for conversation events.
 - `docs/Top_50_Roadmap.md` — prioritised delivery plan from pilot foundations through future-state scale.
 - `reference-implementation/` — tested dependency-free routing, action-control, and CX/Lex adapter examples.
+- `src/content/` — versioned course source metadata checked against the distribution.
 - `runbooks/` and `release/` — incident, source-change, and external-evidence execution controls.
+- `docs/Execution_Status.md` — repository-complete work versus evidence-gated productization work.
 
 ## Verify the reference implementation
 

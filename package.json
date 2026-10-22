@@ -1,0 +1,20 @@
+{
+  "name": "nlu-mobile-masterclass",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mobile-first conversational NLU masterclass and safety-focused reference implementation.",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "validate": "node scripts/validate.cjs",
+    "test": "node --test reference-implementation/orchestrator.test.js tests/*.test.cjs",
+    "test:reference": "node reference-implementation/orchestrator.test.js",
+    "check:syntax": "node --check dist-mobile-nlu/sw.js",
+    "check:content": "node scripts/validate-content.cjs",
+    "check:links": "node scripts/check-links.cjs",
+    "build": "node scripts/build.cjs",
+    "verify": "npm run validate && npm run check:content && npm run check:links && npm test && npm run build"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Normalized conversational turn",
+  "type": "object",
+  "required": ["contractVersion", "authenticationState", "repairCount"],
+  "properties": {
+    "contractVersion": { "type": "string", "const": "1.0" },
+    "turnId": { "type": "string", "description": "Opaque correlation identifier." },
+    "sessionId": { "type": "string", "description": "Opaque session identifier." },
+    "channel": { "type": "string" },
+    "locale": { "type": "string" },
+    "candidateIntent": { "type": "string" },
+    "confidenceBand": { "type": "string", "enum": ["low", "medium", "high", "not_applicable"] },
+    "requestKind": { "type": "string", "enum": ["knowledge", "transactional"] },
+    "collectedFields": { "type": "object", "additionalProperties": true },
+    "authenticationState": { "type": "string", "enum": ["unknown", "unauthenticated", "authenticated", "expired"] },
+    "repairCount": { "type": "integer", "minimum": 0 },
+    "riskSignals": { "type": "array", "items": { "type": "string" } },
+    "retrieval": { "type": "object", "additionalProperties": true }
+  },
+  "additionalProperties": true
+}

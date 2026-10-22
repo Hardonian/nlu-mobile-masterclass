@@ -1,0 +1,19 @@
+# Dependencies and generated output
+node_modules/
+coverage/
+playwright-report/
+test-results/
+dist/
+.env
+.env.*
+!.env.example
+
+# Local/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Generated learner exports
+*.local.md
+conversation-design-review-brief.md
