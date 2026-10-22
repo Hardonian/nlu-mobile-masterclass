@@ -1,0 +1,10 @@
+{
+  "configVersion": "1.0",
+  "organizationName": "Example Organization",
+  "defaultLocale": "en-CA",
+  "brand": { "primaryColor": "#69e3d3", "logoUrl": "" },
+  "journeys": [
+    { "id": "refund-assistant", "name": "Refund assistant", "riskLevel": "medium" }
+  ],
+  "locales": ["en-CA"]
+}

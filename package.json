@@ -11,6 +11,7 @@
     "validate": "node scripts/validate.cjs",
     "test": "node --test reference-implementation/orchestrator.test.js tests/*.test.cjs",
     "test:reference": "node reference-implementation/orchestrator.test.js",
+    "demo": "node reference-implementation/demo.cjs",
     "check:syntax": "node --check dist-mobile-nlu/sw.js",
     "check:content": "node scripts/validate-content.cjs",
     "check:links": "node scripts/check-links.cjs",

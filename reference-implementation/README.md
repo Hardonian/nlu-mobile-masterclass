@@ -17,10 +17,17 @@ This small, dependency-free JavaScript module makes the course routing policy ex
 node reference-implementation/orchestrator.test.js
 ```
 
+Run the local end-to-end policy/domain demo with:
+
+```powershell
+npm run demo
+```
+
+`mock-services.js` is intentionally local-only. It demonstrates ownership, eligibility, provenance, and idempotency boundaries without connecting to a real account or payment system.
+
 ## Integrate safely
 
 1. Replace illustrative adapters with the official provider SDK or webhook contract for your chosen platform.
 2. Pass tokenised/approved identifiers; do not make raw customer text or secrets a default log field.
 3. Make the domain service—not this module—the source of truth for authorisation, eligibility, and execution.
 4. Add provider integration tests, signed request validation, rate limiting, timeout/retry behaviour, observability, and your organisation’s security/privacy controls.
-

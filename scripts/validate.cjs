@@ -10,6 +10,7 @@ const required = [
   'package.json',
   'src/content/course.json',
   'src/content/assessment.json',
+  'src/content/organization.example.json',
   'dist-mobile-nlu/index.html',
   'dist-mobile-nlu/manifest.webmanifest',
   'dist-mobile-nlu/icon-192.svg',
@@ -26,6 +27,8 @@ for (const file of required) {
 
 JSON.parse(fs.readFileSync(path.join(root, 'dist-mobile-nlu/manifest.webmanifest'), 'utf8'));
 JSON.parse(fs.readFileSync(path.join(root, 'docs/Observability_Event_Contract.json'), 'utf8'));
+const organization = JSON.parse(fs.readFileSync(path.join(root, 'src/content/organization.example.json'), 'utf8'));
+if (organization.configVersion !== '1.0' || !organization.organizationName || !Array.isArray(organization.journeys)) throw new Error('Example organization configuration is invalid.');
 
 const check = spawnSync(process.execPath, ['--check', path.join(root, 'dist-mobile-nlu/sw.js')], { encoding: 'utf8' });
 if (check.status !== 0) throw new Error(check.stderr || 'Service worker syntax check failed.');
