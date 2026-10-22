@@ -12,6 +12,7 @@ This document tracks what can be completed inside the repository and what requir
 - CI now includes an obvious-secret scan and a GitHub Pages deployment definition.
 - Added local-only mock domain/retrieval services, event factory, assessment source, organization configuration schema, browser test plan, and governance cadence.
 - Added integration contracts, release management, accessibility report template, locale readiness, role tracks, assessment export, support operations, and procurement/security packet outlines.
+- Remaining non-repository work is enumerated in `docs/Remaining_External_Gates.md`.
 
 ## Evidence-gated work
 
