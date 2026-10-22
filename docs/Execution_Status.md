@@ -9,6 +9,7 @@ This document tracks what can be completed inside the repository and what requir
 - Evaluation data and course lesson structure are validated in CI-compatible scripts.
 - Course metadata and lesson IDs now have a versioned source file under `src/content/` and are checked against the release distribution.
 - Build output receives a deterministic SHA-256 manifest for release traceability.
+- CI now includes an obvious-secret scan and a GitHub Pages deployment definition.
 
 ## Evidence-gated work
 

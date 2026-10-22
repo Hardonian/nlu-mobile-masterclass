@@ -14,7 +14,8 @@
     "check:syntax": "node --check dist-mobile-nlu/sw.js",
     "check:content": "node scripts/validate-content.cjs",
     "check:links": "node scripts/check-links.cjs",
+    "check:security": "node scripts/check-security.cjs",
     "build": "node scripts/build.cjs",
-    "verify": "npm run validate && npm run check:content && npm run check:links && npm test && npm run build"
+    "verify": "npm run validate && npm run check:content && npm run check:links && npm run check:security && npm test && npm run build"
   }
 }
