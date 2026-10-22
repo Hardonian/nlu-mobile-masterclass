@@ -9,6 +9,7 @@ const required = [
   'README.md',
   'package.json',
   'src/content/course.json',
+  'src/content/assessment.json',
   'dist-mobile-nlu/index.html',
   'dist-mobile-nlu/manifest.webmanifest',
   'dist-mobile-nlu/icon-192.svg',

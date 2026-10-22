@@ -10,6 +10,7 @@ This document tracks what can be completed inside the repository and what requir
 - Course metadata and lesson IDs now have a versioned source file under `src/content/` and are checked against the release distribution.
 - Build output receives a deterministic SHA-256 manifest for release traceability.
 - CI now includes an obvious-secret scan and a GitHub Pages deployment definition.
+- Added local-only mock domain/retrieval services, event factory, assessment source, organization configuration schema, browser test plan, and governance cadence.
 
 ## Evidence-gated work
 

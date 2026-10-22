@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Organization course configuration",
+  "type": "object",
+  "required": ["configVersion", "organizationName", "defaultLocale", "journeys"],
+  "properties": {
+    "configVersion": { "type": "string", "const": "1.0" },
+    "organizationName": { "type": "string", "minLength": 1 },
+    "defaultLocale": { "type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$" },
+    "brand": { "type": "object", "additionalProperties": false, "properties": { "primaryColor": { "type": "string" }, "logoUrl": { "type": "string", "format": "uri-reference" } } },
+    "journeys": { "type": "array", "items": { "type": "object", "required": ["id", "name", "riskLevel"], "properties": { "id": { "type": "string" }, "name": { "type": "string" }, "riskLevel": { "enum": ["low", "medium", "high"] } }, "additionalProperties": false } },
+    "locales": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0",
+  "assessmentVersion": "0.1.0",
+  "passingScore": 0.8,
+  "scenarios": [
+    { "id": "auth-before-action", "lessonId": "routing", "prompt": "Cancel order 7412; customer is not authenticated.", "options": ["Execute", "Retrieve policy", "Authenticate then resume"], "correctIndex": 2, "explanation": "Intent is not authority." },
+    { "id": "approved-retrieval", "lessonId": "routing", "prompt": "What is the return policy with approved evidence?", "options": ["Grounded answer", "Refund automatically", "Guess"], "correctIndex": 0, "explanation": "Answer only from approved evidence." },
+    { "id": "payment-dispute", "lessonId": "lab", "prompt": "The customer reports a duplicate charge after a refund.", "options": ["Issue another refund", "Ask a generic question", "Use the specialist path"], "correctIndex": 2, "explanation": "High-impact disputes require specialist review." },
+    { "id": "bounded-clarification", "lessonId": "input", "prompt": "Return it; two eligible orders exist.", "options": ["Choose newest", "Ask for an authorised choice", "Fail silently"], "correctIndex": 1, "explanation": "Ambiguity needs bounded clarification." },
+    { "id": "idempotency", "lessonId": "ship", "prompt": "A retry repeats an irreversible action request.", "options": ["Execute again", "Require an idempotency key", "Ignore the retry"], "correctIndex": 1, "explanation": "Idempotency prevents duplicate execution." }
+  ]
+}
