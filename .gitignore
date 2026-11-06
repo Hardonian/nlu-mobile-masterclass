@@ -17,3 +17,6 @@ Thumbs.db
 # Generated learner exports
 *.local.md
 conversation-design-review-brief.md
+
+# Nested repository clone
+nlu-mobile-masterclass/
